@@ -51,7 +51,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public List<EmployeeVO> getDepartmentAvgSalary() throws SQLException {
         List<EmployeeVO> list = new ArrayList<>();
 
-        String sql = "SELECT D.DEPT_TITLE AS \"부서명\", J.JOB_NAME AS \"직급명\", round(avg(E.SALARY), 0) AS \"평균 급여\" " +
+        String sql = "SELECT D.DEPT_TITLE AS \"부서명\", J.JOB_NAME AS \"직급명\", COUNT(*) AS \"사원수\", round(avg(E.SALARY), 0) AS \"평균 급여\" " +
                 "FROM EMPLOYEE E INNER JOIN DEPARTMENT D ON (E.DEPT_CODE = D.DEPT_ID) INNER JOIN JOB J USING (JOB_CODE) " +
                 "WHERE E.ENT_YN = 'N' " +
                 "GROUP BY D.DEPT_TITLE, J.JOB_NAME " +
@@ -67,7 +67,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
                 e.setDeptTitle(resultSet.getString(1));
                 e.setJobName(resultSet.getString(2));
-                e.setAvgSalary(resultSet.getInt(3));
+                e.setEmployeeCount(resultSet.getInt(3));
+                e.setAvgSalary(resultSet.getInt(4));
 
                 list.add(e);
             }
